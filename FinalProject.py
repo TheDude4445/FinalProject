@@ -71,10 +71,12 @@ class TaskManager:
             with open(filename, 'r') as file:
                 for line in file:
                     values = line.strip().split('|')
-                    name, description, priority, completed = values
-                    task = {"name": name, "description": description, "priority": priority, "completed": completed == 'True'}
-                    self.tasks.append(task)
-                    self.priorities[priority].append(task)
+                    # Check if there are enough values to unpack
+                    if len(values) == 4:
+                        name, description, priority, completed = values
+                        task = {"name": name, "description": description, "priority": priority, "completed": completed == 'True'}
+                        self.tasks.append(task)
+                        self.priorities[priority].append(task)
         except FileNotFoundError:
             pass
 
@@ -91,7 +93,8 @@ class TaskManager:
 class TaskManagerGUI:
     def __init__(self, master):
         self.master = master
-        self.master.title("Task Manager")
+        if self.master:
+            self.master.title("Task Manager")
         self.task_manager = TaskManager()
         self.create_widgets()
 
