@@ -161,7 +161,10 @@ class TaskManagerGUI:
         if task_index.isdigit():
             task_index = int(task_index)
             result = self.task_manager.mark_task_completed(task_index)
-            messagebox.showinfo("Success", result)
+            if result == "Task marked as completed.":
+                messagebox.showinfo("Success", result)
+            else:
+                messagebox.showinfo("Error", result)
         else:
             messagebox.showerror("Error", "Invalid input. Please enter a valid index.")
 
